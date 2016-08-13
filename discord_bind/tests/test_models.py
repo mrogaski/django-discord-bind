@@ -25,7 +25,10 @@ SOFTWARE.
 """
 from __future__ import unicode_literals
 
-from unittest.mock import patch, Mock
+try:
+    from unittest.mock import patch, Mock
+except ImportError:
+    from mock import patch, Mock
 
 from django.test import TestCase
 from django.contrib.auth.models import User, Group
