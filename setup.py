@@ -68,6 +68,7 @@ setup(
     ],
     tests_require=[
         "django-setuptest >= 0.2.1",
+        "mock"
     ],
     test_suite='setuptest.setuptest.SetupTestSuite',
 )
