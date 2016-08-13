@@ -11,3 +11,5 @@ install:
   - python setup.py -q install
 script:
   - python setup.py test
+notifications:
+  email: false
