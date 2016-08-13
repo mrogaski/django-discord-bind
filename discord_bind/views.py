@@ -30,7 +30,10 @@ from datetime import datetime
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import make_aware
 from django.db.models import Q

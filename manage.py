@@ -1,8 +1,9 @@
+#!/usr/bin/env python
 """
 
 The MIT License (MIT)
 
-Copyright (c) 2016, Mark Rogaski
+Copyright (c) 2016 Mark Rogaski
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,20 +25,12 @@ SOFTWARE.
 
 """
 
-DATABASES = {
-    'default': {
-        'NAME': 'test.db',
-        'ENGINE': 'django.db.backends.sqlite3',
-    }
-}
+import os
+import sys
 
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'discord_bind',
-)
+if __name__ == "__main__":
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "test_settings")
 
-SECRET_KEY = 'vn5v8g+q3q*ll)a3kh10wlj#(tc=738cklg9(z3***kw%qhnv-'
-ROOT_URLCONF='discord_bind.urls'
+    from django.core.management import execute_from_command_line
+
+    execute_from_command_line(sys.argv)
