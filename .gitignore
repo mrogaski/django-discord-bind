@@ -52,6 +52,7 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
+pep8.txt
 
 # Flask stuff:
 instance/
@@ -87,3 +88,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# PyDev
+.project
+.pydevproject
