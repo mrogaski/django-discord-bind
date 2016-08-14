@@ -52,6 +52,7 @@ class DiscordUser(models.Model):
     def __str__(self):
         return self.username + '.' + self.discriminator
 
+
 @python_2_unicode_compatible
 class DiscordInvite(models.Model):
     """ Discord instant invites """
@@ -96,6 +97,8 @@ class DiscordInvite(models.Model):
             except KeyError:
                 pass
         else:
-            logger.error('failed to fetch data for Discord invite %s: %d %s' % (
-                    self.code, r.status_code, r.reason))
+            logger.error(('failed to fetch data for '
+                          'Discord invite %s: %d %s') % (self.code,
+                                                         r.status_code,
+                                                         r.reason))
         return result

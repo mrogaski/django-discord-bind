@@ -53,6 +53,7 @@ coverage.xml
 *.log
 local_settings.py
 pep8.txt
+test.db
 
 # Flask stuff:
 instance/
@@ -92,3 +93,4 @@ ENV/
 # PyDev
 .project
 .pydevproject
+.settings/
