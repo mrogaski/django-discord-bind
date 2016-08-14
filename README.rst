@@ -2,36 +2,107 @@
 django-discord-bind
 ===================
 
-This is a simple Django app that allows users to bind their Discord accounts
-to their Django accounts and join a partner Discord server using the OAuth2
-functionality of the Discord API.
+*A Django app for securely associating a user with a Discord account.*
 
-Quick start
------------
+.. image:: https://badge.fury.io/py/django-discord-bind.svg
+    :target: https://badge.fury.io/py/django-discord-bind
+.. image:: https://travis-ci.org/mrogaski/django-discord-bind.svg?branch=master
+    :target: https://travis-ci.org/mrogaski/django-discord-bind
 
-1. Add "discord_bind" to your INSTALLED_APPS setting like this::
+
+This is a simple Django application that allows users to associate one or
+more Discord accounts to their Django accounts and automatically join a
+partner Discord server using the
+`OAuth2 functionality of the Discord API <https://discordapp.com/developers/docs/topics/oauth2>`_.
+
+Requirements
+------------
+
+* Python 2.7, 3.4, 3.5
+* Django 1.9, 1.10
+
+
+Installation
+------------
+
+Install with pip::
+
+    pip install django-discord-bind
+
+Add `discord_bind` to your `INSTALLED_APPS` setting:
+
+.. code-block:: python
 
     INSTALLED_APPS = [
         ...
         'discord_bind',
     ]
 
-2. Include the polls URLconf in your project urls.py like this::
+Include the URL configuration in your project **urls.py**:
 
-    url(r'^discord/', include('discord_bind.urls')),
+.. code-block:: python
 
-3. Run `python manage.py migrate` to create the discord_bind models.
+    urlpatterns = [
+        ...
+        url(r'^discord/', include('discord_bind.urls')),
+    ]
 
-4. Start the development server and visit http://127.0.0.1:8000/admin/
-   to add a Discord invite code (you'll need the Admin app enabled).
+Run ``python manage.py migrate`` to create the discord_bind models.
 
-5. Visit https://discordapp.com/developers/applications/me to create
-   an application.  Add http://127.0.0.1:8000/discord/cb as a redirect URI.
 
-6. Add the Client ID and Secret values to the project settings.py file::
+Configuration
+-------------
 
-    DISCORD_CLIENT_ID = 212763200357720576
-    DISCORD_CLIENT_SECRET = MfpBbcX2Ga3boNhoQoBTdHNUS2B1xX8f
+Required Settings
+^^^^^^^^^^^^^^^^^
 
-5. Visit http://127.0.0.1:8000/discord/ to bind your Discord account and
-   auto-accept the invite code.
+DISCORD_CLIENT_ID
+    The client identifier issued by the Discord authorization server.  This
+    identifier is used in the authorization request of the OAuth 2.0
+    Authorization Code Grant workflow.
+
+DISCORD_CLIENT_SECRET
+    A shared secret issued by the Discord authorization server.  This
+    identifier is used in the access token request of the OAuth 2.0
+    Authorization Code Grant workflow.
+
+
+Optional Settings
+^^^^^^^^^^^^^^^^^
+
+DISCORD_AUTHZ_PATH
+    The path of the authorization request service endpoint, which will be
+    appended to the DISCORD_BASE_URI setting.
+
+    Default: /oauth2/authorize
+
+DISCORD_BASE_URI
+    The base URI for the Discord API.
+
+    Default: https://discordapp.com/api
+
+DISCORD_INVITE_URI
+    The URI that the user will be redirected to after one or more successful
+    auto-invites.
+
+    Default: https://discordapp.com/channels/@me
+
+DISCORD_RETURN_URI
+    The URI that the user will be redirected to if no auto-invites are
+    attempted or successful.
+
+    Default: /
+
+DISCORD_TOKEN_PATH
+    The path of the access token request service endpoint, which will be
+    appended to the DISCORD_BASE_URI setting.
+
+    Default: /oauth2/token
+
+
+License
+-------
+
+django-discord-bind is released under the terms of the MIT license.
+Full details in LICENSE file.
+
