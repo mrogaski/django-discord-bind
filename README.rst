@@ -57,47 +57,54 @@ Required Settings
 ^^^^^^^^^^^^^^^^^
 
 DISCORD_CLIENT_ID
-    The client identifier issued by the Discord authorization server.  This
-    identifier is used in the authorization request of the OAuth 2.0
-    Authorization Code Grant workflow.
+~~~~~~~~~~~~~~~~~
+The client identifier issued by the Discord authorization server.  This
+identifier is used in the authorization request of the OAuth 2.0
+Authorization Code Grant workflow.
 
 DISCORD_CLIENT_SECRET
-    A shared secret issued by the Discord authorization server.  This
-    identifier is used in the access token request of the OAuth 2.0
-    Authorization Code Grant workflow.
+~~~~~~~~~~~~~~~~~~~~~
+A shared secret issued by the Discord authorization server.  This
+identifier is used in the access token request of the OAuth 2.0
+Authorization Code Grant workflow.
 
 
 Optional Settings
 ^^^^^^^^^^^^^^^^^
 
 DISCORD_AUTHZ_PATH
-    The path of the authorization request service endpoint, which will be
-    appended to the DISCORD_BASE_URI setting.
+~~~~~~~~~~~~~~~~~~
+The path of the authorization request service endpoint, which will be
+appended to the DISCORD_BASE_URI setting.
 
-    Default: /oauth2/authorize
+Default: /oauth2/authorize
 
 DISCORD_BASE_URI
-    The base URI for the Discord API.
+~~~~~~~~~~~~~~~~
+The base URI for the Discord API.
 
-    Default: https://discordapp.com/api
+Default: https://discordapp.com/api
 
 DISCORD_INVITE_URI
-    The URI that the user will be redirected to after one or more successful
-    auto-invites.
+~~~~~~~~~~~~~~~~~~
+The URI that the user will be redirected to after one or more successful
+auto-invites.
 
-    Default: https://discordapp.com/channels/@me
+Default: https://discordapp.com/channels/@me
 
 DISCORD_RETURN_URI
-    The URI that the user will be redirected to if no auto-invites are
-    attempted or successful.
+~~~~~~~~~~~~~~~~~~
+The URI that the user will be redirected to if no auto-invites are
+attempted or successful.
 
-    Default: /
+Default: /
 
 DISCORD_TOKEN_PATH
-    The path of the access token request service endpoint, which will be
-    appended to the DISCORD_BASE_URI setting.
+~~~~~~~~~~~~~~~~~~
+The path of the access token request service endpoint, which will be
+appended to the DISCORD_BASE_URI setting.
 
-    Default: /oauth2/token
+Default: /oauth2/token
 
 
 License
