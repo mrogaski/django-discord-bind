@@ -2,7 +2,9 @@
 
 This project uses [Semantic Versioning](http://semver.org/).
 
-## [0.1.3] -- unreleased
+## [0.1.3] -- 2016-08-14
+### Fixed
+- Corrected all PEP8 issues.
 
 ### Updated
 - Documented all settings options.

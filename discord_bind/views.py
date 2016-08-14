@@ -60,6 +60,7 @@ def oauth_session(request, state=None, token=None):
                          token=token,
                          state=state)
 
+
 @login_required
 def index(request):
     # Record the final redirect alternatives
@@ -78,6 +79,7 @@ def index(request):
     url, state = oauth.authorization_url(AUTHZ_URI)
     request.session['discord_bind_oauth_state'] = state
     return HttpResponseRedirect(url)
+
 
 @login_required
 def callback(request):
@@ -136,14 +138,16 @@ def callback(request):
         r = oauth.post(BASE_URI + '/invites/' + invite.code)
         if r.status_code == requests.codes.ok:
             count += 1
-            logger.info('accepted Discord invite for %s/%s' % (invite.guild_name,
-                                                               invite.channel_name))
+            logger.info(('accepted Discord '
+                         'invite for %s/%s') % (invite.guild_name,
+                                                invite.channel_name))
         else:
-            logger.error('failed to accept Discord invite for %s/%s: %d %s' %
-                         (invite.guild_name,
-                          invite.channel_name,
-                          r.status_code,
-                          r.reason))
+            logger.error(('failed to accept Discord '
+                          'invite for %s/%s: %d %s') % (invite.guild_name,
+                                                        invite.channel_name,
+                                                        r.status_code,
+                                                        r.reason))
+
     # Select return target
     if count > 0:
         messages.success(request, '%d Discord invite(s) accepted.' % count)
@@ -157,4 +161,3 @@ def callback(request):
     del request.session['discord_bind_return_uri']
 
     return HttpResponseRedirect(url)
-

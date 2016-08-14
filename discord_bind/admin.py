@@ -30,6 +30,7 @@ from .models import DiscordUser, DiscordInvite
 
 from discord_bind.app_settings import BASE_URI
 
+
 @admin.register(DiscordUser)
 class DiscordUserAdmin(admin.ModelAdmin):
     list_display = ('user',
@@ -43,7 +44,9 @@ class DiscordUserAdmin(admin.ModelAdmin):
             'fields': ('user',),
         }),
         ('Discord Account', {
-            'fields': ('uid', ('username', 'discriminator'), 'email', 'avatar'),
+            'fields': ('uid',
+                       ('username', 'discriminator'),
+                       'email', 'avatar'),
         }),
         ('OAuth2', {
             'classes': ('collapse',),
@@ -62,6 +65,7 @@ class DiscordUserAdmin(admin.ModelAdmin):
                      'discriminator',
                      'uid',
                      'email']
+
 
 @admin.register(DiscordInvite)
 class DiscordInviteAdmin(admin.ModelAdmin):
