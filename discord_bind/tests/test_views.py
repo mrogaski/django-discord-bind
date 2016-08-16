@@ -38,10 +38,8 @@ from django.test import TestCase, RequestFactory, override_settings
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.contrib.auth.models import User, AnonymousUser
 from django.core.urlresolvers import reverse
-from django.conf import settings
 
 from discord_bind.views import index, callback
-from discord_bind import app_settings
 
 
 class AuthorizationRequestTest(TestCase):
