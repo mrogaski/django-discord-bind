@@ -55,8 +55,8 @@ class AuthorizationRequestTest(TestCase):
     @override_settings(DISCORD_CLIENT_ID='212763200357720576')
     def test_get_index(self):
         """ Test the index URL """
-        def user_request(user):
-            request = self.factory.get(reverse('discord_bind_index'))
+        def user_request(user, query=''):
+            request = self.factory.get(reverse('discord_bind_index') + query)
             request.user = user
             middleware = SessionMiddleware()
             middleware.process_request(request)
@@ -80,7 +80,8 @@ class AuthorizationRequestTest(TestCase):
         self.assertIn('client_id=212763200357720576', url.query)
         self.assertIn('redirect_uri=http%3A%2F%2Ftestserver%2Fcb', url.query)
         self.assertIn('scope=email+guilds.join', url.query)
-        self.assertIn('state=', url.query)
+        self.assertIn('state=%s' % request.session['discord_bind_oauth_state'],
+                      url.query)
 
         # Limited scope
         with self.settings(DISCORD_EMAIL_SCOPE='212763200357720576'):
@@ -105,3 +106,34 @@ class AuthorizationRequestTest(TestCase):
             self.assertEqual('', url.query)
             self.assertEqual('https://discordapp.com/api/foo/bar',
                              url.scheme + '://' + url.netloc + url.path)
+
+        # invite uri tests
+        request = user_request(self.user)
+        response = index(request)
+        self.assertEqual(request.session['discord_bind_invite_uri'],
+                         'https://discordapp.com/channels/@me')
+
+        request = user_request(self.user, 'invite_uri=/foo')
+        response = index(request)
+        self.assertEqual(request.session['discord_bind_invite_uri'], '/foo')
+
+        with self.settings(DISCORD_INVITE_URI='https://www.example.com/'):
+            request = user_request(self.user)
+            response = index(request)
+            self.assertEqual(request.session['discord_bind_invite_uri'],
+                             'https://www.example.com/')
+
+        # return uri tests
+        request = user_request(self.user)
+        response = index(request)
+        self.assertEqual(request.session['discord_bind_return_uri'], '/')
+
+        request = user_request(self.user, 'invite_uri=/foo')
+        response = index(request)
+        self.assertEqual(request.session['discord_bind_return_uri'], '/foo')
+
+        with self.settings(DISCORD_INVITE_URI='https://www.example.com/'):
+            request = user_request(self.user)
+            response = index(request)
+            self.assertEqual(request.session['discord_bind_return_uri'],
+                             'https://www.example.com/')
