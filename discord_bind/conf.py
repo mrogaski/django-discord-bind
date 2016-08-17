@@ -42,7 +42,6 @@ class DiscordBindConf(AppConf):
 
     # OAuth2 scope
     EMAIL_SCOPE = True
-    AUTHZ_SCOPE = ['email', 'guilds.join']
 
     # Return URI
     INVITE_URI = 'https://discordapp.com/channels/@me'
@@ -52,10 +51,3 @@ class DiscordBindConf(AppConf):
         proxy = True
         prefix = 'discord'
         required = ['CLIENT_ID', 'CLIENT_SECRET']
-
-    def configure(self):
-        if self.configured_data['EMAIL_SCOPE']:
-            self.configured_data['AUTHZ_SCOPE'] = ['email', 'guilds.join']
-        else:
-            self.configured_data['AUTHZ_SCOPE'] = ['identity', 'guilds.join']
-        return self.configured_data
