@@ -40,6 +40,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.core.urlresolvers import reverse
 
 from discord_bind.views import index, callback
+from discord_bind.conf import settings
 
 
 class AuthorizationRequestTest(TestCase):
@@ -54,7 +55,10 @@ class AuthorizationRequestTest(TestCase):
     def test_get_index(self):
         """ Test the index URL """
         def user_request(user, query=''):
-            request = self.factory.get(reverse('discord_bind_index') + query)
+            url = reverse('discord_bind_index')
+            if query != '':
+                url = url + '?' + query
+            request = self.factory.get(url)
             request.user = user
             middleware = SessionMiddleware()
             middleware.process_request(request)
@@ -82,7 +86,7 @@ class AuthorizationRequestTest(TestCase):
                       url.query)
 
         # Limited scope
-        with self.settings(DISCORD_EMAIL_SCOPE='212763200357720576'):
+        with self.settings(DISCORD_EMAIL_SCOPE=False):
             request = user_request(self.user)
             response = index(request)
             url = urlparse(response['location'])
@@ -93,15 +97,13 @@ class AuthorizationRequestTest(TestCase):
             request = user_request(self.user)
             response = index(request)
             url = urlparse(response['location'])
-            self.assertEqual('', url.query)
             self.assertEqual('https://www.example.com/api/oauth2/authorize',
                              url.scheme + '://' + url.netloc + url.path)
 
-        with self.settings(DISCORD_AUTHZ_URI='/foo/bar'):
+        with self.settings(DISCORD_AUTHZ_PATH='/foo/bar'):
             request = user_request(self.user)
             response = index(request)
             url = urlparse(response['location'])
-            self.assertEqual('', url.query)
             self.assertEqual('https://discordapp.com/api/foo/bar',
                              url.scheme + '://' + url.netloc + url.path)
 
@@ -126,11 +128,11 @@ class AuthorizationRequestTest(TestCase):
         response = index(request)
         self.assertEqual(request.session['discord_bind_return_uri'], '/')
 
-        request = user_request(self.user, 'invite_uri=/foo')
+        request = user_request(self.user, 'return_uri=/foo')
         response = index(request)
         self.assertEqual(request.session['discord_bind_return_uri'], '/foo')
 
-        with self.settings(DISCORD_INVITE_URI='https://www.example.com/'):
+        with self.settings(DISCORD_RETURN_URI='https://www.example.com/'):
             request = user_request(self.user)
             response = index(request)
             self.assertEqual(request.session['discord_bind_return_uri'],
