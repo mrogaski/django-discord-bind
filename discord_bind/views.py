@@ -25,10 +25,8 @@ SOFTWARE.
 """
 from __future__ import unicode_literals
 
-
 from datetime import datetime
 
-from django.conf import settings
 from django.http import HttpResponseRedirect
 try:
     from django.urls import reverse
@@ -43,9 +41,7 @@ import requests
 from requests_oauthlib import OAuth2Session
 
 from discord_bind.models import DiscordUser, DiscordInvite
-from discord_bind.app_settings import BASE_URI, AUTHZ_URI, TOKEN_URI
-from discord_bind.app_settings import RETURN_URI, INVITE_URI
-from discord_bind.app_settings import CLIENT_ID, CLIENT_SECRET, AUTHZ_SCOPE
+from discord_bind.conf import settings
 
 import logging
 logger = logging.getLogger(__name__)
@@ -54,9 +50,9 @@ logger = logging.getLogger(__name__)
 def oauth_session(request, state=None, token=None):
     """ Constructs the OAuth2 session object. """
     redirect_uri = request.build_absolute_uri(reverse('discord_bind_callback'))
-    return OAuth2Session(CLIENT_ID,
+    return OAuth2Session(settings.DISCORD_CLIENT_ID,
                          redirect_uri=redirect_uri,
-                         scope=AUTHZ_SCOPE,
+                         scope=settings.DISCORD_AUTHZ_SCOPE,
                          token=token,
                          state=state)
 
@@ -67,16 +63,17 @@ def index(request):
     if 'invite_uri' in request.GET:
         request.session['discord_bind_invite_uri'] = request.GET['invite_uri']
     else:
-        request.session['discord_bind_invite_uri'] = INVITE_URI
+        request.session['discord_bind_invite_uri'] = settings.DISCORD_INVITE_URI
 
     if 'return_uri' in request.GET:
         request.session['discord_bind_return_uri'] = request.GET['return_uri']
     else:
-        request.session['discord_bind_return_uri'] = RETURN_URI
+        request.session['discord_bind_return_uri'] = settings.DISCORD_RETURN_URI
 
     # Compute the authorization URI
     oauth = oauth_session(request)
-    url, state = oauth.authorization_url(AUTHZ_URI)
+    url, state = oauth.authorization_url(settings.DISCORD_BASE_URI +
+                                         settings.DISCORD_AUTHZ_PATH)
     request.session['discord_bind_oauth_state'] = state
     return HttpResponseRedirect(url)
 
@@ -120,12 +117,12 @@ def callback(request):
     response = request.build_absolute_uri()
     state = request.session['discord_bind_oauth_state']
     oauth = oauth_session(request, state=state)
-    token = oauth.fetch_token(TOKEN_URI,
-                              client_secret=CLIENT_SECRET,
+    token = oauth.fetch_token(settings.DISCORD_BASE_URI + settings.DISCORD_TOKEN_PATH,
+                              client_secret=settings.DISCORD_CLIENT_SECRET,
                               authorization_response=response)
 
     # Get Discord user data
-    user = oauth.get(BASE_URI + '/users/@me').json()
+    user = oauth.get(settings.DISCORD_BASE_URI + '/users/@me').json()
     data = decompose_data(user, token)
     bind_user(request, data)
 
@@ -135,7 +132,7 @@ def callback(request):
                                         Q(groups__in=groups) | Q(groups=None))
     count = 0
     for invite in invites:
-        r = oauth.post(BASE_URI + '/invites/' + invite.code)
+        r = oauth.post(settings.DISCORD_BASE_URI + '/invites/' + invite.code)
         if r.status_code == requests.codes.ok:
             count += 1
             logger.info(('accepted Discord '

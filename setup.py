@@ -66,7 +66,8 @@ setup(
     ],
     install_requires=[
         "Django >= 1.9",
-        "requests-oauthlib == 0.6.2",
+        "requests-oauthlib >= 0.6",
+        "django-appconf >= 1.0",
     ],
     tests_require=[
         "django-setuptest >= 0.2.1",

@@ -27,4 +27,6 @@ from django.apps import AppConfig
 
 
 class DiscordBindConfig(AppConfig):
+    """ Application config """
+    from discord_bind.conf import DiscordBindConf
     name = 'discord_bind'

@@ -23,4 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
+# following PEP 386
+__version__ = '0.1.4'
+
 default_app_config = 'discord_bind.apps.DiscordBindConfig'
