@@ -38,7 +38,7 @@ from discord_bind.models import DiscordUser, DiscordInvite
 
 
 class TestDiscordUser(TestCase):
-
+    """ Test the Discord user model """
     def setUp(self):
         self.user = User.objects.create(username='henry')
 
@@ -54,7 +54,7 @@ class TestDiscordUser(TestCase):
 
 
 class TestDiscordInvite(TestCase):
-
+    """ Test the Discord invite model """
     def setUp(self):
         self.red = Group.objects.create(name='Red Team')
         self.blue = Group.objects.create(name='Blue Team')
