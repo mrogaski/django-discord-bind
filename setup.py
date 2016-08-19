@@ -36,7 +36,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-discord-bind',
-    version='0.1.3',
+    version='0.2.0',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',  # example license
@@ -66,7 +66,8 @@ setup(
     ],
     install_requires=[
         "Django >= 1.9",
-        "requests-oauthlib == 0.6.2",
+        "requests-oauthlib >= 0.6",
+        "django-appconf >= 1.0",
     ],
     tests_require=[
         "django-setuptest >= 0.2.1",

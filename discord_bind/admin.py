@@ -23,12 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
-import requests
-
 from django.contrib import admin
 from .models import DiscordUser, DiscordInvite
-
-from discord_bind.app_settings import BASE_URI
 
 
 @admin.register(DiscordUser)

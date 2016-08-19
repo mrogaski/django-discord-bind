@@ -40,4 +40,5 @@ INSTALLED_APPS = (
 )
 
 SECRET_KEY = 'vn5v8g+q3q*ll)a3kh10wlj#(tc=738cklg9(z3***kw%qhnv-'
-ROOT_URLCONF='discord_bind.urls'
+
+ROOT_URLCONF = 'discord_bind.urls'

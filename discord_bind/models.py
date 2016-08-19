@@ -29,7 +29,7 @@ import requests
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils.encoding import python_2_unicode_compatible
-from discord_bind.app_settings import BASE_URI
+from discord_bind.conf import settings
 
 import logging
 logger = logging.getLogger(__name__)
@@ -81,7 +81,7 @@ class DiscordInvite(models.Model):
 
     def update_context(self):
         result = False
-        r = requests.get(BASE_URI + '/invites/' + self.code)
+        r = requests.get(settings.DISCORD_BASE_URI + '/invites/' + self.code)
         if r.status_code == requests.codes.ok:
             logger.info('fetched data for Discord invite %s' % self.code)
             invite = r.json()
