@@ -1,4 +1,3 @@
-===================
 django-discord-bind
 ===================
 
@@ -6,9 +5,13 @@ django-discord-bind
 
 .. image:: https://badge.fury.io/py/django-discord-bind.svg
     :target: https://badge.fury.io/py/django-discord-bind
+    :alt: Git Repository
 .. image:: https://travis-ci.org/mrogaski/django-discord-bind.svg?branch=master
     :target: https://travis-ci.org/mrogaski/django-discord-bind
-
+    :alt: Build Status
+.. image:: https://readthedocs.org/projects/django-discord-bind/badge/?version=latest
+    :target: http://django-discord-bind.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 This is a simple Django application that allows users to associate one or
 more Discord accounts to their Django accounts and automatically join a
@@ -20,35 +23,6 @@ Requirements
 
 * Python 2.7, 3.4, 3.5
 * Django 1.9, 1.10
-
-
-Installation
-------------
-
-Install with pip::
-
-    pip install django-discord-bind
-
-Add `discord_bind` to your `INSTALLED_APPS` setting:
-
-.. code-block:: python
-
-    INSTALLED_APPS = [
-        ...
-        'discord_bind',
-    ]
-
-Include the URL configuration in your project **urls.py**:
-
-.. code-block:: python
-
-    urlpatterns = [
-        ...
-        url(r'^discord/', include('discord_bind.urls')),
-    ]
-
-Run ``python manage.py migrate`` to create the discord_bind models.
-
 
 License
 -------
