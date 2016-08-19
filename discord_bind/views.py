@@ -27,7 +27,7 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 try:
     from django.urls import reverse
 except ImportError:
@@ -124,6 +124,8 @@ def callback(request):
 
     response = request.build_absolute_uri()
     state = request.session['discord_bind_oauth_state']
+    if 'state' not in request.GET or request.GET['state'] != state:
+        return HttpResponseForbidden()
     oauth = oauth_session(request, state=state)
     token = oauth.fetch_token(settings.DISCORD_BASE_URI +
                               settings.DISCORD_TOKEN_PATH,
