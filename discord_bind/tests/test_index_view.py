@@ -118,6 +118,7 @@ class TestAuthorizationRequest(TestCase):
         with self.settings(DISCORD_REDIRECT_URI='https://foo.bar/cb'):
             request = user_request(self.user)
             response = index(request)
+            url = urlparse(response['location'])
             self.assertIn('redirect_uri=https%3A%2F%2Ffoo.bar%2Fcb', url.query)
 
         # invite uri tests

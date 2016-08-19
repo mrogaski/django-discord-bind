@@ -49,7 +49,11 @@ logger = logging.getLogger(__name__)
 
 def oauth_session(request, state=None, token=None):
     """ Constructs the OAuth2 session object. """
-    redirect_uri = request.build_absolute_uri(reverse('discord_bind_callback'))
+    if settings.DISCORD_REDIRECT_URI is not None:
+        redirect_uri = settings.DISCORD_REDIRECT_URI
+    else:
+        redirect_uri = request.build_absolute_uri(
+            reverse('discord_bind_callback'))
     scope = (['email', 'guilds.join'] if settings.DISCORD_EMAIL_SCOPE
              else ['identity', 'guilds.join'])
     return OAuth2Session(settings.DISCORD_CLIENT_ID,
