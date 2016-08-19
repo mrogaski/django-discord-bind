@@ -26,9 +26,9 @@ SOFTWARE.
 from __future__ import unicode_literals
 
 try:
-    from unittest.mock import patch, mock, MagicMock
+    from unittest.mock import patch, Mock, MagicMock
 except ImportError:
-    from mock import patch, mock, MagicMock
+    from mock import patch, Mock, MagicMock
 try:
     from urllib.parse import urlparse
 except ImportError:
@@ -65,8 +65,8 @@ class TestAccessTokenRequest(TestCase):
     @override_settings(DISCORD_CLIENT_ID='212763200357720576')
     def test_get_callback(self):
 
-        @mock.patch('discord_bind.views.OAuth2Session.get')
-        @mock.patch('discord_bind.views.OAuth2Session.fetch_token')
+        @patch('discord_bind.views.OAuth2Session.get')
+        @patch('discord_bind.views.OAuth2Session.fetch_token')
         def get_callback(user, query, mock_fetch, mock_get):
             # build request
             url = reverse('discord_bind_callback')
@@ -102,7 +102,7 @@ class TestAccessTokenRequest(TestCase):
                 "username": "stigg",
                 "verified": True
             }
-            mock_response = mock.Mock()
+            mock_response = Mock()
             mock_response.json.return_value = user_data
             mock_get.return_value = mock_response
 
