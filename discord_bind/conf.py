@@ -43,7 +43,8 @@ class DiscordBindConf(AppConf):
     # OAuth2 scope
     EMAIL_SCOPE = True
 
-    # Return URI
+    # URI settings
+    REDIRECT_URI = None
     INVITE_URI = 'https://discordapp.com/channels/@me'
     RETURN_URI = '/'
 
