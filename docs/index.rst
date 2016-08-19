@@ -7,8 +7,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
-   configuration
-   administration
+   settings
    changelog
 
 
