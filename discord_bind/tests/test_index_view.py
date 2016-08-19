@@ -109,6 +109,16 @@ class TestAuthorizationRequest(TestCase):
             self.assertEqual('https://discordapp.com/api/foo/bar',
                              url.scheme + '://' + url.netloc + url.path)
 
+        # redirect uri tests
+        request = user_request(self.user, 'redirect_uri=https://foo.bar/cb')
+        response = index(request)
+        self.assertIn('redirect_uri=https%3A%2F%2Ffoo.bar%2Fcb', url.query)
+
+        with self.settings(DISCORD_REDIRECT_URI='https://foo.bar/cb'):
+            request = user_request(self.user)
+            response = index(request)
+            self.assertIn('redirect_uri=https%3A%2F%2Ffoo.bar%2Fcb', url.query)
+
         # invite uri tests
         request = user_request(self.user)
         response = index(request)
