@@ -24,7 +24,8 @@ SOFTWARE.
 
 """
 from __future__ import unicode_literals
-
+import random
+import string
 from datetime import datetime
 
 from django.http import HttpResponseRedirect, HttpResponseForbidden
@@ -36,6 +37,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.timezone import make_aware
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 import requests
 from requests_oauthlib import OAuth2Session
@@ -54,8 +56,8 @@ def oauth_session(request, state=None, token=None):
     else:
         redirect_uri = request.build_absolute_uri(
             reverse('discord_bind_callback'))
-    scope = (['email', 'guilds.join'] if settings.DISCORD_EMAIL_SCOPE
-             else ['identity', 'guilds.join'])
+    scope = (['identify', 'email', 'guilds', 'guilds.join'] if settings.DISCORD_EMAIL_SCOPE
+             else ['identify', 'guilds', 'guilds.join'])
     return OAuth2Session(settings.DISCORD_CLIENT_ID,
                          redirect_uri=redirect_uri,
                          scope=scope,
@@ -63,7 +65,6 @@ def oauth_session(request, state=None, token=None):
                          state=state)
 
 
-@login_required
 def index(request):
     # Record the final redirect alternatives
     if 'invite_uri' in request.GET:
@@ -86,7 +87,6 @@ def index(request):
     return HttpResponseRedirect(url)
 
 
-@login_required
 def callback(request):
     def decompose_data(user, token):
         """ Extract the important details """
@@ -115,11 +115,19 @@ def callback(request):
     def bind_user(request, data):
         """ Create or update a DiscordUser instance """
         uid = data.pop('uid')
-        count = DiscordUser.objects.filter(uid=uid).update(user=request.user,
+
+        remote_user = authenticate(request, remote_user=str(uid))
+
+        if remote_user is not None:
+            login(request, remote_user)
+        else:
+            return HttpResponseRedirect("/?login_error=true")
+
+        count = DiscordUser.objects.filter(uid=uid).update(user=remote_user,
                                                            **data)
         if count == 0:
             DiscordUser.objects.create(uid=uid,
-                                       user=request.user,
+                                       user=remote_user,
                                        **data)
 
     response = request.build_absolute_uri()

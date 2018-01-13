@@ -94,3 +94,5 @@ ENV/
 .project
 .pydevproject
 .settings/
+
+\.idea/

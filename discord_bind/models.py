@@ -42,10 +42,10 @@ class DiscordUser(models.Model):
     uid = models.CharField(max_length=20, blank=False, unique=True)
     username = models.CharField(max_length=254)
     discriminator = models.CharField(max_length=4)
-    avatar = models.CharField(max_length=32, blank=True)
+    avatar = models.CharField(max_length=254, blank=True)
     email = models.EmailField(max_length=254, blank=True)
-    access_token = models.CharField(max_length=32, blank=True)
-    refresh_token = models.CharField(max_length=32, blank=True)
+    access_token = models.CharField(max_length=254, blank=True)
+    refresh_token = models.CharField(max_length=254, blank=True)
     scope = models.CharField(max_length=256, blank=True)
     expiry = models.DateTimeField(null=True)
 
@@ -68,10 +68,10 @@ class DiscordInvite(models.Model):
     groups = models.ManyToManyField(Group, blank=True,
                                     related_name='discord_invites')
     description = models.CharField(max_length=256, blank=True)
-    guild_name = models.CharField(max_length=64, blank=True)
+    guild_name = models.CharField(max_length=254, blank=True)
     guild_id = models.CharField(max_length=20, blank=True)
-    guild_icon = models.CharField(max_length=32, blank=True)
-    channel_name = models.CharField(max_length=64, blank=True)
+    guild_icon = models.CharField(max_length=254, blank=True)
+    channel_name = models.CharField(max_length=254, blank=True)
     channel_id = models.CharField(max_length=20, blank=True)
     channel_type = models.CharField(max_length=5, blank=True,
                                     choices=CHANNEL_TYPE_CHOICES)
