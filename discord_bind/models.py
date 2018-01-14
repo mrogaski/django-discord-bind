@@ -61,7 +61,7 @@ class DiscordUser(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        DiscordUser.objects.create(user=instance)
+        DiscordUser.objects.create(user=instance, uid=instance.username)
 
 
 @receiver(post_save, sender=User)

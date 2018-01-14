@@ -33,7 +33,7 @@ try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
-from django.contrib.auth.decorators import login_required
+
 from django.utils.timezone import make_aware
 from django.db.models import Q
 from django.contrib import messages
@@ -123,12 +123,11 @@ def callback(request):
         else:
             return HttpResponseRedirect("/?login_error=true")
 
-        count = DiscordUser.objects.filter(uid=uid).update(user=remote_user,
-                                                           **data)
-        if count == 0:
-            DiscordUser.objects.create(uid=uid,
-                                       user=remote_user,
-                                       **data)
+        usr_count = DiscordUser.objects.filter(uid=uid).update(user=remote_user, **data)
+        if usr_count == 0:
+            new_user = DiscordUser(uid=uid, user=remote_user, **data)
+            new_user.save()
+            print("ERROR: " + new_user.username)
 
     response = request.build_absolute_uri()
     state = request.session['discord_bind_oauth_state']
