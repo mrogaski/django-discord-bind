@@ -56,8 +56,8 @@ def oauth_session(request, state=None, token=None):
     else:
         redirect_uri = request.build_absolute_uri(
             reverse('discord_bind_callback'))
-    scope = (['identify', 'email', 'guilds', 'guilds.join'] if settings.DISCORD_EMAIL_SCOPE
-             else ['identify', 'guilds', 'guilds.join'])
+    scope = (['identify', 'email', 'guilds'] if settings.DISCORD_EMAIL_SCOPE
+             else ['identify', 'guilds'])
     return OAuth2Session(settings.DISCORD_CLIENT_ID,
                          redirect_uri=redirect_uri,
                          scope=scope,
@@ -78,6 +78,11 @@ def index(request):
     else:
         request.session['discord_bind_return_uri'] = (
                 settings.DISCORD_RETURN_URI)
+
+    if 'next' in request.GET:
+        request.session['discord_bind_next_uri'] = request.GET.get('next', "/")
+    else:
+        request.session['discord_bind_next_uri'] = "/"
 
     # Compute the authorization URI
     oauth = oauth_session(request)
@@ -168,11 +173,12 @@ def callback(request):
         messages.success(request, '%d Discord invite(s) accepted.' % count)
         url = request.session['discord_bind_invite_uri']
     else:
-        url = request.session['discord_bind_return_uri']
+        url = request.session['discord_bind_next_uri']
 
     # Clean up
     del request.session['discord_bind_oauth_state']
     del request.session['discord_bind_invite_uri']
     del request.session['discord_bind_return_uri']
+    del request.session['discord_bind_next_uri']
 
     return HttpResponseRedirect(url)
