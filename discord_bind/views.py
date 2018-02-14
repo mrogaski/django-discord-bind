@@ -144,8 +144,10 @@ def callback(request):
     state = request.session['discord_bind_oauth_state']
     if request.GET.get('error', False):
         if request.GET.get('error', "") == "access_denied":
-            redir_url = (settings.DISCORD_ERROR_URI if settings.DISCORD_ERROR_URI
-                         else "/")
+            if settings.DISCORD_ERROR_URI:
+                redir_url = settings.DISCORD_ERROR_URI
+            else:
+                redir_url = "/"
             return HttpResponseRedirect("{}?error=access_denied".format(redir_url))
     if 'state' not in request.GET or request.GET['state'] != state:
         raise PermissionDenied
