@@ -41,12 +41,13 @@ class DiscordBindConf(AppConf):
     CLIENT_SECRET = None
 
     # OAuth2 scope
-    EMAIL_SCOPE = True
+    EMAIL_SCOPE = False
 
     # URI settings
     REDIRECT_URI = None
     INVITE_URI = 'https://discordapp.com/channels/@me'
     RETURN_URI = '/'
+    ERROR_URI = '/'
 
     class Meta:
         proxy = True
