@@ -58,6 +58,8 @@ def oauth_session(request, state=None, token=None):
             reverse('discord_bind_callback'))
     scope = (['identify', 'email', 'guilds'] if settings.DISCORD_EMAIL_SCOPE
              else ['identify', 'guilds'])
+    if request.GET.get("raise_invites", False):
+        scope.append('guilds.join')
     return OAuth2Session(settings.DISCORD_CLIENT_ID,
                          redirect_uri=redirect_uri,
                          scope=scope,
