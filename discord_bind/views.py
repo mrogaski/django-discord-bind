@@ -38,6 +38,7 @@ from django.utils.timezone import make_aware
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.core.exceptions import PermissionDenied
 
 import requests
 from requests_oauthlib import OAuth2Session
@@ -60,6 +61,9 @@ def oauth_session(request, state=None, token=None):
              else ['identify', 'guilds'])
     if request.GET.get("raise_invites", False):
         scope.append('guilds.join')
+    if request.GET.get("raise_email", False):
+        if 'email' not in scope:
+            scope.append('email')
     return OAuth2Session(settings.DISCORD_CLIENT_ID,
                          redirect_uri=redirect_uri,
                          scope=scope,
@@ -138,8 +142,13 @@ def callback(request):
 
     response = request.build_absolute_uri()
     state = request.session['discord_bind_oauth_state']
+    if request.GET.get('error', False):
+        if request.GET.get('error', "") == "access_denied":
+            redir_url = (settings.DISCORD_ERROR_URI if settings.DISCORD_ERROR_URI is not None
+                         else "/")
+            return HttpResponseRedirect("{}?error=access_denied".format(redir_url))
     if 'state' not in request.GET or request.GET['state'] != state:
-        return HttpResponseForbidden()
+        raise PermissionDenied
     oauth = oauth_session(request, state=state)
     token = oauth.fetch_token(settings.DISCORD_BASE_URI +
                               settings.DISCORD_TOKEN_PATH,
