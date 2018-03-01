@@ -42,20 +42,18 @@ from requests_oauthlib import OAuth2Session
 
 from discord_bind.models import DiscordUser, DiscordInvite
 from discord_bind.conf import settings
-
+import json
 import logging
 logger = logging.getLogger(__name__)
 
 
-def oauth_session(request, state=None, token=None):
+def oauth_session(request, scope=None, state=None, token=None):
     """ Constructs the OAuth2 session object. """
     if settings.DISCORD_REDIRECT_URI is not None:
         redirect_uri = settings.DISCORD_REDIRECT_URI
     else:
         redirect_uri = request.build_absolute_uri(
             reverse('discord_bind_callback'))
-    scope = (['email', 'guilds.join'] if settings.DISCORD_EMAIL_SCOPE
-             else ['identity', 'guilds.join'])
     return OAuth2Session(settings.DISCORD_CLIENT_ID,
                          redirect_uri=redirect_uri,
                          scope=scope,
@@ -79,7 +77,10 @@ def index(request):
                 settings.DISCORD_RETURN_URI)
 
     # Compute the authorization URI
-    oauth = oauth_session(request)
+    scope = (['email', 'identify',
+              'guilds.join'] if settings.DISCORD_EMAIL_SCOPE
+             else ['identify', 'guilds.join'])
+    oauth = oauth_session(request, scope=scope)
     url, state = oauth.authorization_url(settings.DISCORD_BASE_URI +
                                          settings.DISCORD_AUTHZ_PATH)
     request.session['discord_bind_oauth_state'] = state
@@ -143,8 +144,14 @@ def callback(request):
                                         Q(groups__in=groups) | Q(groups=None))
     count = 0
     for invite in invites:
-        r = oauth.post(settings.DISCORD_BASE_URI + '/invites/' + invite.code)
-        if r.status_code == requests.codes.ok:
+        r = requests.put(
+            (settings.DISCORD_BASE_URI + '/guilds/' + invite.guild_id +
+             "/members/" + user.get('id')),
+            data=json.dumps(dict(access_token=token.get("access_token"))),
+            headers={'Content-Type': 'application/json',
+                     'Authorization': settings.BOT_TOKEN})
+
+        if r.status_code == requests.codes.no_content:
             count += 1
             logger.info(('accepted Discord '
                          'invite for %s/%s') % (invite.guild_name,
