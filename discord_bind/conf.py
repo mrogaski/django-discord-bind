@@ -42,6 +42,7 @@ class DiscordBindConf(AppConf):
 
     # OAuth2 scope
     EMAIL_SCOPE = False
+    INVITE_SCOPE = False
 
     # URI settings
     REDIRECT_URI = None

@@ -59,8 +59,8 @@ def oauth_session(request, state=None, token=None):
             reverse('discord_bind_callback'))
     scope = (['identify', 'email', 'guilds'] if settings.DISCORD_EMAIL_SCOPE
              else ['identify', 'guilds'])
-    if request.GET.get("raise_invites", False):
-        scope.append('guilds.join')
+    if settings.DISCORD_INVITE_SCOPE:
+        scope.append("guild.join")
     if request.GET.get("raise_email", False):
         if 'email' not in scope:
             scope.append('email')
@@ -184,7 +184,8 @@ def callback(request):
     # Select return target
     if count > 0:
         messages.success(request, '%d Discord invite(s) accepted.' % count)
-        url = request.session['discord_bind_invite_uri']
+        url = request.session['discord_bind_next_uri']
+        # url = request.session['discord_bind_invite_uri']
     else:
         url = request.session['discord_bind_next_uri']
 
