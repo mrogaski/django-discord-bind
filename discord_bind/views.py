@@ -57,13 +57,21 @@ def oauth_session(request, state=None, token=None):
     else:
         redirect_uri = request.build_absolute_uri(
             reverse('discord_bind_callback'))
-    scope = (['identify', 'email', 'guilds'] if settings.DISCORD_EMAIL_SCOPE
-             else ['identify', 'guilds'])
+    scope = (['identify', 'email'] if settings.DISCORD_EMAIL_SCOPE
+             else ['identify'])
+    if settings.DISCORD_GUILDS_SCOPE:
+        scope.append("guilds")
     if settings.DISCORD_INVITE_SCOPE:
         scope.append("guilds.join")
     if request.GET.get("raise_email", False):
         if 'email' not in scope:
             scope.append('email')
+    if request.GET.get("optout_email", False):
+        if 'email' in scope:
+            scope.remove('email')
+    if request.GET.get("optout_join", False):
+        if 'guilds.join' in scope:
+            scope.remove('guilds.join')
     return OAuth2Session(settings.DISCORD_CLIENT_ID,
                          redirect_uri=redirect_uri,
                          scope=scope,
