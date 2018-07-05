@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAndyTempel%2Fdjango-discord-bind.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FAndyTempel%2Fdjango-discord-bind?ref=badge_shield)
+
 django-discord-bind
 ===================
 
@@ -30,3 +32,7 @@ License
 django-discord-bind is released under the terms of the MIT license.
 Full details in LICENSE file.
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAndyTempel%2Fdjango-discord-bind.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FAndyTempel%2Fdjango-discord-bind?ref=badge_large)
