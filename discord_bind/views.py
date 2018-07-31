@@ -77,6 +77,9 @@ def oauth_session(request, state=None, token=None):
     if request.GET.get("raise_3rdparty", False):
         if 'connections' not in scope:
             scope.append('connections')
+    if request.GET.get("raise_guilds", False):
+        if 'guilds.join' not in scope:
+            scope.append('guilds.join')
     return OAuth2Session(settings.DISCORD_CLIENT_ID,
                          redirect_uri=redirect_uri,
                          scope=scope,
