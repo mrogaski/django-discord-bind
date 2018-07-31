@@ -44,6 +44,7 @@ class DiscordBindConf(AppConf):
     EMAIL_SCOPE = False
     GUILDS_SCOPE = True
     INVITE_SCOPE = False
+    CONNECTIONS_SCOPE = False
 
     # URI settings
     REDIRECT_URI = None

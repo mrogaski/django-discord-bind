@@ -63,6 +63,8 @@ def oauth_session(request, state=None, token=None):
         scope.append("guilds")
     if settings.DISCORD_INVITE_SCOPE:
         scope.append("guilds.join")
+    if settings.DISCORD_CONNECTIONS_SCOPE:
+        scope.append("connections")
     if request.GET.get("raise_email", False):
         if 'email' not in scope:
             scope.append('email')
@@ -72,6 +74,9 @@ def oauth_session(request, state=None, token=None):
     if request.GET.get("optout_join", False):
         if 'guilds.join' in scope:
             scope.remove('guilds.join')
+    if request.GET.get("raise_3rdparty", False):
+        if 'connections' not in scope:
+            scope.append('connections')
     return OAuth2Session(settings.DISCORD_CLIENT_ID,
                          redirect_uri=redirect_uri,
                          scope=scope,
