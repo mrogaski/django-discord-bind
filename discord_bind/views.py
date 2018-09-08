@@ -146,20 +146,18 @@ def callback(request):
         remote_user = authenticate(request, remote_user=str(uid))
 
         if remote_user is not None:
-            if remote_user.is_active is False:
-                raise PermissionDenied
             login(request, remote_user)
         else:
             return HttpResponseRedirect("/?login_error=true")
 
         usr_count = DiscordUser.objects.filter(uid=uid).update(user=remote_user, **data)
-        try:
-            remote_user.first_name = data.get("username", "")
-            remote_user.last_name = data.get("discriminator", "")
-            remote_user.email = data.get("email", "")
-            remote_user.save()
-        except Exception as e:
-            logger.error("Failed to update django user - {}".format(e))
+        # try:
+        #     remote_user.first_name = data.get("username", "")
+        #     remote_user.last_name = data.get("discriminator", "")
+        #     remote_user.email = data.get("email", "")
+        #     remote_user.save()
+        # except Exception as e:
+        #     logger.error("Failed to update django user - {}".format(e))
         if usr_count == 0:
             new_user = DiscordUser(uid=uid, user=remote_user, **data)
             new_user.save()
