@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "~=1.10"
+django-appconf = "*"
+requests = "*"
+requests-oauthlib = "*"
+
+[dev-packages]
+django-setuptest = "*"
+
