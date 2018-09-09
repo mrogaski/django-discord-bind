@@ -1,15 +1,33 @@
 language: python
+dist: xenial
+sudo: true
+
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
+- 2.7
+- 3.5
+- 3.6
+- 3.7
+
 env:
+  global:
   - DJANGO=1.9
   - DJANGO=1.10
+  - PIP_USE_MIRRORS=true
+
+cache:
+  directories:
+  - $HOME/.cache/pip
+
 install:
-  - pip install -q Django==$DJANGO
-  - python setup.py -q install
+- pip install -q Django==$DJANGO
+- python setup.py -q install
+
 script:
-  - python setup.py test
+- python setup.py test
+
+after_success: coveralls
+
 notifications:
-  email: false
+  email:
+    on_success: change
+    on_failure: always
