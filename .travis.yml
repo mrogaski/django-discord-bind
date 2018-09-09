@@ -12,7 +12,6 @@ env:
 - DJANGO=1.11
 - DJANGO=2.0
 - DJANGO=2.1
-- PIP_USE_MIRRORS=true
 
 matrix:
   exclude:
