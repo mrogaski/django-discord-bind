@@ -10,8 +10,9 @@ python:
 
 env:
   global:
-  - DJANGO=1.9
-  - DJANGO=1.10
+  - DJANGO=1.11
+  - DJANGO=2.0
+  - DJANGO=2.1
   - PIP_USE_MIRRORS=true
 
 cache:
