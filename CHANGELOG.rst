@@ -6,8 +6,8 @@ This document records all notable changes to `django-discord-bind <https://githu
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
 
-`1.0.0`_ - Unreleased
----------------------
+1.0.0 - Unreleased
+------------------
 
 Added
 ~~~~~
