@@ -32,7 +32,7 @@ install:
 script:
 - python setup.py test
 
-after_success: coveralls -v
+after_success: coveralls
 
 notifications:
   email:
