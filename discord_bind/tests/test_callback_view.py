@@ -38,7 +38,7 @@ import os
 from django.test import TestCase, RequestFactory, override_settings
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.contrib.auth.models import User, AnonymousUser, Group
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from discord_bind.views import callback
 from discord_bind.models import DiscordInvite

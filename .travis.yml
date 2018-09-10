@@ -9,10 +9,16 @@ python:
 - 3.7
 
 env:
-  global:
-  - DJANGO=1.9
-  - DJANGO=1.10
-  - PIP_USE_MIRRORS=true
+- DJANGO=1.11
+- DJANGO=2.0
+- DJANGO=2.1
+
+matrix:
+  exclude:
+  - python: 2.7
+    env: DJANGO=2.0
+  - python: 2.7
+    env: DJANGO=2.1
 
 cache:
   directories:

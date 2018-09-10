@@ -12,7 +12,9 @@ This project adheres to `Semantic Versioning <http://semver.org/>`_.
 Added
 ~~~~~
 * Added pipenv for dependency management.
+* Added support for Django 1.11, 2.0, and 2.1.
 
 Removed
 ~~~~~~~
 * Removed support for Python 3.4.
+* Removed support for Django 1.9 and 1.10.

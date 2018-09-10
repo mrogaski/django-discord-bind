@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "~=1.10"
+django = ">=1.11"
 django-appconf = "*"
 requests = "*"
 requests-oauthlib = "*"
