@@ -75,6 +75,7 @@ setup(
         'pytest',
         'pytest-django',
         'pytest-cov',
+        'requests_mock',
         'mock'
     ],
 )
