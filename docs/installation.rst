@@ -3,11 +3,13 @@
 Installation
 ------------
 
-Install with pip::
+1.  Install with pip.
+
+.. code-block:: console
 
     pip install django-discord-bind
 
-Add `discord_bind` to your `INSTALLED_APPS` setting:
+2.  Add `discord_bind` to your `INSTALLED_APPS` setting:
 
 .. code-block:: python
 
@@ -16,7 +18,7 @@ Add `discord_bind` to your `INSTALLED_APPS` setting:
         'discord_bind',
     ]
 
-Include the URL configuration in your project **urls.py**:
+3.  Include the URL configuration in your project **urls.py**:
 
 .. code-block:: python
 
@@ -25,4 +27,4 @@ Include the URL configuration in your project **urls.py**:
         url(r'^discord/', include('discord_bind.urls')),
     ]
 
-Run ``python manage.py migrate`` to create the discord_bind models.
+4.  Run ``python manage.py migrate`` to create the discord_bind models.

@@ -11,4 +11,4 @@ requests-oauthlib = "*"
 
 [dev-packages]
 django-setuptest = "*"
-
+sphinx = "*"
