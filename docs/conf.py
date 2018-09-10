@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'django-discord-bind'
-copyright = '2016, Mark Rogaski'
+copyright = '2016-2018, Mark Rogaski'
 author = 'Mark Rogaski'
 
 # The version info for the project you're documenting, acts as replacement for

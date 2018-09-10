@@ -18,11 +18,14 @@ more Discord accounts to their Django accounts and automatically join a
 partner Discord server using the
 `OAuth2 functionality of the Discord API <https://discordapp.com/developers/docs/topics/oauth2>`_.
 
+This package does not provide any support for Discord as an identity provider, for that I
+recommend `django-allauth <https://django-allauth.readthedocs.io/en/latest/>`_.
+
 Requirements
 ------------
 
-* Python 2.7, 3.4, 3.5
-* Django 1.9, 1.10
+* Python 2.7, 3.5, 3.6, and 3.7
+* Django 1.11, 2.0, and 2.1
 
 License
 -------
