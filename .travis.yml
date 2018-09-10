@@ -25,6 +25,7 @@ cache:
   - $HOME/.cache/pip
 
 install:
+- pip install coveralls
 - pip install -q Django==$DJANGO
 - python setup.py -q install
 
