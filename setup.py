@@ -65,14 +65,16 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
+    setup_requires=['pytest-runner'],
     install_requires=[
-        "Django >= 1.9",
-        "requests-oauthlib >= 0.6",
-        "django-appconf >= 1.0",
+        'Django >= 1.9',
+        'requests-oauthlib >= 0.6',
+        'django-appconf >= 1.0',
     ],
     tests_require=[
-        "django-setuptest >= 0.2.1",
-        "mock"
+        'pytest',
+        'pytest-django',
+        'pytest-cov',
+        'mock'
     ],
-    test_suite='setuptest.setuptest.SetupTestSuite',
 )

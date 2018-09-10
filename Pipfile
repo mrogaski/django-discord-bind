@@ -10,5 +10,8 @@ requests = "*"
 requests-oauthlib = "*"
 
 [dev-packages]
-django-setuptest = "*"
 sphinx = "*"
+pytest = "*"
+pytest-django = "*"
+pytest-cov = "*"
+requests-mock = "*"

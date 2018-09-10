@@ -14,6 +14,10 @@ Added
 * Added pipenv for dependency management.
 * Added support for Django 1.11, 2.0, and 2.1.
 
+Changed
+~~~~~~~
+* Moved to the pytest-django plugin for testing.
+
 Removed
 ~~~~~~~
 * Removed support for Python 3.4.
