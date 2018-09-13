@@ -25,6 +25,17 @@ A shared secret issued by the Discord authorization server.  This
 identifier is used in the access token request of the OAuth 2.0
 Authorization Code Grant workflow.
 
+DISCORD_BOT_TOKEN
+~~~~~~~~~~~~~~~~~
+
+A secret token issued by the Discord authorization server from App Bot User.
+The Bot user should already be added to the guild that you set up in the Discord invites panel.
+Please refer to `Bot Authorization Flow`__.
+
+__ bot-authorization-flow_
+
+.. _bot-authorization-flow: https://discordapp.com/developers/docs/topics/oauth2#bot-authorization-flow
+
 Optional Settings
 -----------------
 
@@ -52,7 +63,7 @@ The URI that the user will be redirected to after one or more successful
 auto-invites.
 
 DISCORD_REDIRECT_URI
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
     Default: ``reverse('discord_bind_callback')``
 
