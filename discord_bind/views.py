@@ -84,8 +84,7 @@ def oauth_session(request, state=None, token=None):
                          redirect_uri=redirect_uri,
                          scope=scope,
                          token=token,
-                         state=state,
-                         params={'prompt': 'none'})
+                         state=state)
 
 
 def index(request):
@@ -111,6 +110,7 @@ def index(request):
     oauth = oauth_session(request)
     url, state = oauth.authorization_url(settings.DISCORD_BASE_URI +
                                          settings.DISCORD_AUTHZ_PATH)
+    url = url + "&prompt=none"
     request.session['discord_bind_oauth_state'] = state
     return HttpResponseRedirect(url)
 
