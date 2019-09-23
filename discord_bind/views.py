@@ -84,7 +84,8 @@ def oauth_session(request, state=None, token=None):
                          redirect_uri=redirect_uri,
                          scope=scope,
                          token=token,
-                         state=state)
+                         state=state,
+                         params={'prompt': 'none'})
 
 
 def index(request):
